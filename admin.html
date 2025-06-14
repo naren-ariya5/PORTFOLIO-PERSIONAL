@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel - Messages</title>
+</head>
+<body>
+  <h2>User Messages</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Date</th><th>Name</th><th>Email</th><th>Phone</th><th>Subject</th><th>Message</th>
+      </tr>
+    </thead>
+    <tbody id="messagesTable"></tbody>
+  </table>
+  <script>
+    async function loadMessages() {
+      const res = await fetch('http://localhost:3000/api/messages');
+      const messages = await res.json();
+      const tbody = document.getElementById('messagesTable');
+      tbody.innerHTML = '';
+      messages.reverse().forEach(msg => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${new Date(msg.date).toLocaleString()}</td>
+                        <td>${msg.name}</td>
+                        <td>${msg.email}</td>
+                        <td>${msg.phone}</td>
+                        <td>${msg.subject}</td>
+                        <td>${msg.message}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    loadMessages();
+  </script>
+</body>
+</html>
